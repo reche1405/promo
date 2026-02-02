@@ -14,11 +14,13 @@ var projectRepo = new BaseRepo<Project>(db, "ProjectId");
 
 app.MapGet("/", () =>
 {
-    var projects =  projectRepo.GetAll();
-
+    
+    var projects = Project.Objects.All().ToList(db);
+    var colours = Colour.Objects.All().ToList(db);
     return new
     {
-         projects 
+         projects,
+         colours 
     };
 });
 

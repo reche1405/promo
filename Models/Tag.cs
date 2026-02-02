@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace RecheApi.Models
 {
     [Table("Tag")]
-    public class Tag
+    public class Tag : Model<Tag>
     {
         public int TagId {get;set;}
         public string? Text {get;set;}

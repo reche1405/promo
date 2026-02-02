@@ -8,7 +8,6 @@ namespace RecheApi.Data
     public class Manager<T> where T : new ()
     {
           
-        private readonly Db _db;
         private readonly string _table = typeof(T).GetCustomAttribute<TableAttribute>() ? .Name ??
             throw new Exception("The Model is missing a class level [Table] attribute.");
 
@@ -35,27 +34,5 @@ namespace RecheApi.Data
             
         }
 
-
-        private T MapToModel(SqliteDataReader reader)
-        {
-            T obj = new();
-            var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            for(int i = 0; i < reader.FieldCount; i++)
-            {
-                var name = reader.GetName(i);
-                var prop = props.FirstOrDefault( p => 
-                string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase ));
-            }
-
-            return obj;
-        }
-
-        public List<T> ToList(QuerySet<T> _qb)
-        {
-            List<T> list = new();
-            // TODO: get the connection string from a global setting,
-            // Connect to the db and call the query function
-            // Similar to the query single in to model
-        }
-    }
+    };
 }

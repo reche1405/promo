@@ -4,7 +4,7 @@ namespace RecheApi.Models
 {
     public abstract class Model<T> where T : class, new()
     {
-        Manager<T> Objects {get; } = new();
-        
+        public static Manager<T> Objects {get; } = new();
+
     }
 }
