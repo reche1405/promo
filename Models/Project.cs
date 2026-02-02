@@ -1,12 +1,21 @@
 
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using RecheApi.Data.Attributes;
+
 namespace RecheApi.Models
 {
-    public class Project
+    [Table("Project")]
+    public class Project() : Model<Project>
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public bool IsComplete { get; set; }
+        
+        public int ProjectId { get; set; }
+        public string? Title { get; set; }
+
+        public string? Description {get; set; }
+        public string? StartDate { get; set; }
+        public string? EndDate {get; set; }
 
 
     }

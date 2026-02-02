@@ -15,73 +15,73 @@ namespace RecheApi.Data
             tableCommand.CommandText = 
             @"
                 CREATE TABLE IF NOT EXISTS Colour (
-                    colourId INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title VARCHAR(255) NOT NULL,
-                    red INTEGER DEFAULT 0,
-                    green INTEGER DEFAULT 0,
-                    blue INTEGER DEFAULT 0,
-                    alpha FLOAT DEFAULT 1.0
+                    ColourId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Title VARCHAR(255) NOT NULL,
+                    Red INTEGER DEFAULT 0,
+                    Green INTEGER DEFAULT 0,
+                    Blue INTEGER DEFAULT 0,
+                    Alpha FLOAT DEFAULT 1.0
                 );
 
-                INSERT INTO Colour (title, red, green, blue, alpha)
+                INSERT INTO Colour (Title, Red, Green, Blue, Alpha)
                 VALUES ('Primary', 255, 160, 160, 1.0);
 
                 CREATE TABLE IF NOT EXISTS Tag (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    text VARCHAR(255) NOT NULL,
-                    colourId INTEGER,
-                    FOREIGN KEY (colourId) REFERENCES Colour(colourId)
+                    TagId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Text VARCHAR(255) NOT NULL,
+                    ColourId INTEGER,
+                    FOREIGN KEY (ColourId) REFERENCES Colour(ColourId)
                 );
             
                 CREATE TABLE IF NOT EXISTS Media (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    path VARCHAR(255) UNIQUE NOT NULL,
-                    title VARCHAR(255),
-                    description VARCHAR(255)
+                    MediaId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Path VARCHAR(255) UNIQUE NOT NULL,
+                    Title VARCHAR(255),
+                    Description VARCHAR(255)
 
                 );
 
                 CREATE TABLE IF NOT EXISTS TextBlock (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    text MEDIUMTEXT NOT NULL,
-                    colourId INTEGER,
-                    FOREIGN KEY (colourId) REFERENCES Colour(colourId)
+                    TextBlockId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Text MEDIUMTEXT NOT NULL,
+                    ColourId INTEGER,
+                    FOREIGN KEY (ColourId) REFERENCES Colour(ColourId)
                 );
 
 
                 CREATE TABLE IF NOT EXISTS Project (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title VARCHAR(255) NOT NULL,
-                    description MEDIUMTEXT NOT NULL,
-                    startDate DATETIME DEFAULT CURRENT_DATE,
-                    endDate DATETIME,
-                    colourId INTEGER,
+                    ProjectId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Title VARCHAR(255) NOT NULL,
+                    Description MEDIUMTEXT NOT NULL,
+                    StartDate DATETIME DEFAULT CURRENT_DATE,
+                    EndDate DATETIME,
+                    ColourId INTEGER,
 
 
-                    FOREIGN KEY (colourId) REFERENCES Colour(colourId)
+                    FOREIGN KEY (ColourId) REFERENCES Colour(ColourId)
 
                 );
 
-                INSERT INTO Project (title, description, colourId) 
+                INSERT INTO Project (Title, Description, ColourId) 
                 VALUES ('Hello World Projects', 'Lorem Ipsum dolor amet, some other stuff that i cant quite rememebr.', 1);
 
                 CREATE TABLE IF NOT EXISTS ProjectTag (
-                    projectId INTEGER NOT NULL,
-                    tagId INTEGER NOT NULL,
+                    ProjectId INTEGER NOT NULL,
+                    TagId INTEGER NOT NULL,
                     
-                    PRIMARY KEY (projectId, tagId),
-                    FOREIGN KEY (projectId) REFERENCES Project(projectId),
-                    FOREIGN KEY (tagId) REFERENCES Tag(tagId)
+                    PRIMARY KEY (ProjectId, TagId),
+                    FOREIGN KEY (ProjectId) REFERENCES Project(ProjectId),
+                    FOREIGN KEY (TagId) REFERENCES Tag(TagId)
                 );
 
 
                 CREATE TABLE IF NOT EXISTS ProjectMedia (
-                    projectId INTEGER NOT NULL,
-                    mediaId INTEGER NOT NULL,
+                    ProjectId INTEGER NOT NULL,
+                    MediaId INTEGER NOT NULL,
                     
-                    PRIMARY KEY (projectId, mediaId),
-                    FOREIGN KEY (projectId) REFERENCES Project(projectId),
-                    FOREIGN KEY (mediaId) REFERENCES Media(mediaId)
+                    PRIMARY KEY (ProjectId, MediaId),
+                    FOREIGN KEY (ProjectId) REFERENCES Project(ProjectId),
+                    FOREIGN KEY (MediaId) REFERENCES Media(MediaId)
                 );
             ";
                     
@@ -94,10 +94,6 @@ namespace RecheApi.Data
             con.Open();
             using var cmd = con.CreateCommand();
             cmd.CommandText = sql;
-            foreach(var (name, value) in parameters)
-            {
-                cmd.Parameters.AddWithValue(name,value);
-            }
             using var reader = cmd.ExecuteReader();
             return reader.Read() ? map(reader) : default!;
 
@@ -109,10 +105,6 @@ namespace RecheApi.Data
             con.Open();
             using var cmd = con.CreateCommand();
             cmd.CommandText = sql;
-            foreach(var (name, value) in parameters)
-            {
-                cmd.Parameters.AddWithValue(name,value);
-            }
             using var reader = cmd.ExecuteReader();
             while(reader.Read())
             {
@@ -134,5 +126,6 @@ namespace RecheApi.Data
             }
             return cmd.ExecuteNonQuery();
         }
+
     }
 }
