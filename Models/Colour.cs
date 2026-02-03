@@ -1,14 +1,19 @@
-using System.ComponentModel.DataAnnotations.Schema;
+using RecheApi.Data.Attributes.Models;
 
 namespace RecheApi.Models
 {
     [Table("Colour")]
     public class Colour() : Model<Colour>
     {
-        public int ColourId;
+        [Column(primaryKey: true, autoIncrement: true)]
+        public int ColourId {get;set;}
+        [Column]
         public int Red {get;set;}
+        [Column]
         public int Green {get;set;}
+        [Column]
         public int Blue {get;set;}
+        [Column]
         public double Alpha {get;set;}
     }
 }

@@ -50,7 +50,7 @@ namespace RecheApi.Data
                     ProjectId INTEGER PRIMARY KEY AUTOINCREMENT,
                     Title VARCHAR(255) NOT NULL,
                     Description MEDIUMTEXT NOT NULL,
-                    StartDate DATETIME DEFAULT CURRENT_DATE,
+                    StartDate DATETIME DEFAULT DATE(),
                     EndDate DATETIME,
                     ColourId INTEGER,
 
