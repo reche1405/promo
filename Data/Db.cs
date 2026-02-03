@@ -3,11 +3,10 @@ namespace RecheApi.Data
 {
     public class Db
     {
-        private readonly string _conString;
+        private readonly string _conString = Config.ConnectionString;
 
-        public Db(string conString)
+        public Db()
         {
-            _conString = conString;
 
             using var con = new SqliteConnection(_conString);
             con.Open();
@@ -23,8 +22,6 @@ namespace RecheApi.Data
                     Alpha FLOAT DEFAULT 1.0
                 );
 
-                INSERT INTO Colour (Title, Red, Green, Blue, Alpha)
-                VALUES ('Primary', 255, 160, 160, 1.0);
 
                 CREATE TABLE IF NOT EXISTS Tag (
                     TagId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,9 +59,6 @@ namespace RecheApi.Data
 
                 );
 
-                INSERT INTO Project (Title, Description, ColourId) 
-                VALUES ('Hello World Projects', 'Lorem Ipsum dolor amet, some other stuff that i cant quite rememebr.', 1);
-
                 CREATE TABLE IF NOT EXISTS ProjectTag (
                     ProjectId INTEGER NOT NULL,
                     TagId INTEGER NOT NULL,
@@ -94,6 +88,10 @@ namespace RecheApi.Data
             con.Open();
             using var cmd = con.CreateCommand();
             cmd.CommandText = sql;
+            foreach(var (name, value) in parameters)
+            {
+                cmd.Parameters.AddWithValue(name,value);
+            }
             using var reader = cmd.ExecuteReader();
             return reader.Read() ? map(reader) : default!;
 
@@ -105,6 +103,11 @@ namespace RecheApi.Data
             con.Open();
             using var cmd = con.CreateCommand();
             cmd.CommandText = sql;
+            foreach(var (name, value) in parameters)
+            {
+                cmd.Parameters.AddWithValue(name,value);
+            }
+
             using var reader = cmd.ExecuteReader();
             while(reader.Read())
             {
@@ -114,6 +117,10 @@ namespace RecheApi.Data
             return results;
         }
 
+        public bool Add<T>(string sql, params (string, object)[] parameters)
+        {
+            return Execute(sql, parameters) == 1;
+        }
         public int Execute(string sql, params (string, object)[] parameters)
         {
              using var con = new SqliteConnection(_conString);

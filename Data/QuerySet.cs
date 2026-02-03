@@ -8,8 +8,7 @@ namespace RecheApi.Data
     {
         public static readonly List<string> operations = new List<string> {
             "SELECT * FROM",
-            "INSERT INTO TABLE",
-            "CREATE NEW TABLE",
+            "SELECT COUNT(*) FROM"
 
         };
         
@@ -35,12 +34,12 @@ namespace RecheApi.Data
             return this;
         }
 
-        public T GetById(int id, Db _db)
+        public QuerySet<T> GetById(int id)
         {
             
             _operation = operations[0];
             _whereClauses.Add($"{_tableName}Id = {id}");
-            return _db.QuerySingle(ToSQL(), MapToModel);
+            return this;
         }
         public QuerySet<T> Where(string clause)
         {
@@ -92,10 +91,12 @@ namespace RecheApi.Data
                 sql += $" ORDER BY {_orderBy}";
             if (_limit.HasValue) 
                 sql += $" LIMIT {_limit}";
+            Console.WriteLine(sql);
             return sql;
         }
-        public List<T> ToList(Db _db)
+        public List<T> ToList()
         {
+            Db _db = new();
             return _db.Query(ToSQL(), MapToModel);
             // TODO: get the connection string from a global setting,
             // Connect to the db and call the query function
@@ -103,8 +104,9 @@ namespace RecheApi.Data
             
         }
 
-        public T First(Db _db)
+        public T First()
         {
+            Db _db = new();
             _limit = 1;
             return _db.QuerySingle(ToSQL(), MapToModel);
         }
