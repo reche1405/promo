@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
-using Microsoft.Data.Sqlite;
+using RecheApi.Nifty.Models;
 using RecheApi.Nifty.Database;
-namespace RecheApi.Data
+namespace RecheApi.Nifty.Models
 {
 
     public class Manager<T> where T : new ()

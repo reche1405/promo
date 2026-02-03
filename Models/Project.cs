@@ -1,5 +1,5 @@
-using RecheApi.Data.Attributes.Models;
-
+using RecheApi.Nifty.Attributes.Models;
+using RecheApi.Nifty.Models;
 namespace RecheApi.Models
 {
     [Table("Project")]

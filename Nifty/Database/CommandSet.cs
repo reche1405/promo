@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using System.Windows.Markup;
 
-namespace RecheApi.Data
+namespace RecheApi.Nifty.Database
 {
     public class CommandSet<T> where T : new ()
     {
