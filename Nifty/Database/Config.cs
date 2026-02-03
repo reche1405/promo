@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 
-namespace RecheApi.Data
+namespace RecheApi.Nifty.Database
 {
     public class Config
     {

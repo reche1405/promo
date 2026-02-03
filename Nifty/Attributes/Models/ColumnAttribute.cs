@@ -1,6 +1,6 @@
 using RecheApi.Models;
 
-namespace RecheApi.Data.Attributes.Models
+namespace RecheApi.Nifty.Attributes.Models
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute

@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using Microsoft.Data.Sqlite;
-
-namespace RecheApi.Data
+namespace RecheApi.Nifty.Database
 {
     public class QuerySet<T> where T : new ()
     {

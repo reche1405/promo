@@ -1,16 +1,18 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using RecheApi.Nifty.Attributes.Models;
+using RecheApi.Nifty.Models;
 
 namespace RecheApi.Models
 {
     [Table("Tag")]
-    public class Tag : Model<Tag>
+    public class Tag() : Model<Tag>
     {
-        [Required]
+        [Column(primaryKey: true, autoIncrement: true)]
         public int TagId {get;set;}
+
+        [Column(required: true)]
         public string? Text {get;set;}
+        [Column]
         public int? ColourId {get; set; }
-        public Tag() {}
 
     }
 }

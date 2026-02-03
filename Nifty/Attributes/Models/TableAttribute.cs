@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Net.Http.Headers;
-namespace RecheApi.Data.Attributes.Models
+namespace RecheApi.Nifty.Attributes.Models
 {
     
 [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]

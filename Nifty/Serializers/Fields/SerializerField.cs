@@ -11,7 +11,9 @@ namespace RecheApi.Serializers.Fields
 
         public bool IsReadOnly {get;set;} = isReadOnly;
 
-        public object GetValue(object instance)
+        public object? RequestedValue {get;set;}
+
+        public object? GetValue(object instance)
         {
             return ModelProperty.GetValue(instance);
         }

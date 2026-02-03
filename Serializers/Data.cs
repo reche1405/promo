@@ -1,8 +1,7 @@
-using System.Reflection.Metadata.Ecma335;
 
 namespace RecheApi.Serializers
 {
-public abstract class Data()
+public class Data()
     {
         private Dictionary<string, object> _values = new();
         public void SetValue(string key, object value) => _values[key] = value;

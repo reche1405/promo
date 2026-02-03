@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 using Microsoft.Data.Sqlite;
-
+using RecheApi.Nifty.Database;
 namespace RecheApi.Data
 {
 

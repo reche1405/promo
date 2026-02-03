@@ -1,4 +1,4 @@
-namespace RecheApi.Data.Attributes.Models
+namespace RecheApi.Nifty.Attributes.Models
 {
     public class RequiredAttribute() : Attribute
     {

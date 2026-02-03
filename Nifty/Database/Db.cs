@@ -1,5 +1,5 @@
 using Microsoft.Data.Sqlite; 
-namespace RecheApi.Data
+namespace RecheApi.Nifty.Database
 {
     public class Db
     {
