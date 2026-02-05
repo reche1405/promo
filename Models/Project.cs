@@ -20,6 +20,9 @@ namespace RecheApi.Models
         [Column]
         public string? EndDate {get; set; }
 
+        [ManyToMany(otherModel:"Tag", relatedName: "Tags", reverseName: "Projects")]
+        public List<Tag> Tags {get; set;} = new();
+
 
     }
 }

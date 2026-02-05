@@ -3,16 +3,12 @@ using RecheApi.Serializers;
 using RecheApi.Nifty.Serializers.DataTransfer;
 using RecheApi.Nifty.Application;
 
-
-//var builder = WebApplication.CreateBuilder(args);
-//var app = builder.Build();
-
 var AppFactory = new NiftyAppFactory();
 AppFactory.CreateBuilder(args);
-var nApp = AppFactory.Build();
+var App = AppFactory.Build();
 
 
-nApp.MapGet("/", () =>
+App.MapGet("/", () =>
 {
     
     var projects = Project.Objects.All().Where("ProjectId > 2").ToList();
@@ -23,7 +19,7 @@ nApp.MapGet("/", () =>
          projectData
     };
 });
-nApp.MapPost("/", (context) =>
+App.MapPost("/", (context) =>
 {
     var data = context.Items["Data"] as RequestData;
     if (data is null)
@@ -48,4 +44,4 @@ nApp.MapPost("/", (context) =>
     return Task.CompletedTask;
 } );
 
-nApp.Run();
+App.Run();
