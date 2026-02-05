@@ -5,7 +5,7 @@ namespace RecheApi.Nifty.Attributes.Models
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute
     (bool primaryKey = false, bool required = false, int maxLength = 0, 
-    bool autoIncrement = false, string foreignKey = "", bool autoNowAdd = false, bool readOnly = false ) : Attribute
+    bool autoIncrement = false, string foreignKey = "", bool autoNowAdd = false, bool autoNow = false, bool readOnly = false ) : Attribute
     {
         public bool IsPrimaryKey {get;set;} = primaryKey;
 
@@ -17,6 +17,7 @@ namespace RecheApi.Nifty.Attributes.Models
         public string? ForeignKeyTableName {get;set;} = foreignKey.Length > 0 ? foreignKey : null;
 
         public bool AutoNowAdd {get;set;} = autoNowAdd;
+        public bool AutoNow {get;set;} = autoNow;
         
     }
 }

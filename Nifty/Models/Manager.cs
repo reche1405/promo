@@ -4,6 +4,7 @@ using RecheApi.Nifty.Models;
 using RecheApi.Nifty.Database;
 using RecheApi.Nifty.Attributes.Models;
 using RecheApi.Nifty.Attributes.Serializers;
+using RecheApi.Nifty.Serializers.DataTransfer;
 namespace RecheApi.Nifty.Models
 {
 
@@ -38,7 +39,7 @@ namespace RecheApi.Nifty.Models
             
         }
 
-        public T Create(Nifty.Serializers.Data data) 
+        public T Create(ValidatedData data) 
         {
             T model = new();
 

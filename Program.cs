@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using RecheApi.Models;
 using RecheApi.Nifty.Serializers;
 using RecheApi.Serializers;
+using RecheApi.Nifty.Serializers.DataTransfer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +31,7 @@ app.Use( async (context, next) =>
         return;
     }
 
-    Data data = new();
+    RequestData data = new();
     using var sr = new StreamReader(context.Request.Body);
     var body = await sr.ReadToEndAsync();
     if(string.IsNullOrEmpty(body))
@@ -61,20 +62,30 @@ app.MapGet("/", () =>
     
     var projects = Project.Objects.All().Where("ProjectId > 2").ToList();
     var colours = Colour.Objects.All().ToList();
+    var projectData = ProjectSerializer.Serialize(projects);
     return new
     {
-         projects,
-         colours 
+         projectData
     };
 });
 app.MapPost("/", (context) =>
 {
-    var data = context.Items["Data"] as Data;
+    var data = context.Items["Data"] as RequestData;
+    if (data is null)
+    {
+        context.Response.StatusCode = 500;
+        return Task.CompletedTask;
+    }
     Console.WriteLine(data.ToString());
 
     ProjectSerializer serializer = new(data);
     // If (!serializer.IsValid())  { context.Response.StatusCode = 400; return Task.CompletedTask};
-    Data validated = serializer.ValidatedData();
+    if (!serializer.IsValid())
+    {
+        context.Response.StatusCode = 400;
+        return Task.CompletedTask;
+    }
+    ValidatedData validated = serializer.ValidatedData ?? throw new Exception("There was no validated data");
     Console.WriteLine(validated.ToString());
     Project project = Project.Objects.Create(validated);
     Project.Objects.Save();

@@ -33,7 +33,10 @@ namespace RecheApi.Nifty.Database
                 if (value is not null && value.GetType().Equals(typeof(string)))
                 {
                     string _value = (string)value;
-                    _value = _value.Replace("'", "''");
+                    // TODO: Serious injection avoidance, 
+                    // such as adding '"' or ')' or any combination.
+                     
+                    _value = _value.Replace("\"", "").Replace("'", "''");
                     _value = "'" + _value + "'";
                     _columns.Add(name);
                     _values.Add(_value);

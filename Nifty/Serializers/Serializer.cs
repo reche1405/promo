@@ -3,12 +3,14 @@ using System.Reflection;
 using RecheApi.Serializers.Fields;
 using RecheApi.Nifty.Attributes.Models;
 using System.Text.Json;
+using RecheApi.Nifty.Serializers.DataTransfer;
 namespace RecheApi.Nifty.Serializers
 {
 
     public abstract class Serializer
     {
         protected readonly List<SerializerField> Fields = [];
+        public ValidatedData? ValidatedData {get;set;} = null;
        
 
     }
@@ -16,25 +18,26 @@ namespace RecheApi.Nifty.Serializers
     public class ModelSerializer<T> : Serializer  where T : class, new()
     {
     
-        protected ModelSerializer(Data? requestData = null)
+        protected ModelSerializer(RequestData? requestData = null)
         {
             MapFields(requestData);
         }
+        
 
-        private void MapFields(Data? data = null)
+        private void MapFields(RequestData? reqData = null)
         {
             var props = typeof(T).GetProperties();
-            var _data = data as Data;
+            var rData = reqData as RequestData;
             foreach (PropertyInfo prop in props)
             {
                 var attrs = prop.GetCustomAttribute<ColumnAttribute>();
                 if(attrs is null) continue;
                 SerializerField field = new(prop.Name, prop, attrs.IsRequired, attrs.IsReadOnly);
-                if (data is not null)
+                if (reqData is not null)
                 {   try
                     {
                         
-                        object value = data.GetValueIgnoreCase<object>(prop.Name);
+                        object value = reqData.GetValueIgnoreCase<object>(prop.Name);
                         Type type = field.ModelProperty.GetType();
                         string parsed = value.ToString()?? "";
                         field.RequestedValue = parsed;
@@ -53,9 +56,9 @@ namespace RecheApi.Nifty.Serializers
 
 
 
-        public static Data Serialize(T model)
+        public static Dictionary<string, object> Serialize(T model)
         {
-            Data data = new();
+            ModelData mData = new();
             var props = model.GetType().GetProperties() ??
             throw new Exception("Unable to locate properties on the provided model - Nifty Serializer.");
             
@@ -67,26 +70,38 @@ namespace RecheApi.Nifty.Serializers
                 var value = prop.GetValue(model);
                 if(value is null) continue;
 
-                data.SetValue(prop.Name, value); 
+                mData.SetValue(prop.Name, value); 
             }
             
            
 
+            return mData.Data();
+        }
+
+        public static List<Dictionary<string, object>> Serialize(List<T> modelList)
+        {
+            List<Dictionary<string, object>> data = new();
+            foreach(T m in modelList) {
+                Dictionary<string, object> modelData = Serialize(m);
+                data.Add(modelData);
+            };
             return data;
         }
 
-        public Data ValidatedData()
+
+        public bool IsValid()
         {
-            Data data = new();
+            ValidatedData data = new();
             foreach(SerializerField field in Fields)
             {
-                object? requested = field.RequestedValue;
+                object requested = field.RequestedValue?? throw new Exception("There is no requested data for this fiel");
                 Type typeNeeded = field.ModelProperty.GetType();
                 var converted =  requested; 
                 data.SetValue(field.FieldName, field.RequestedValue);
             }
 
-            return data;
+            ValidatedData = data;
+            return true;
         }
 
         

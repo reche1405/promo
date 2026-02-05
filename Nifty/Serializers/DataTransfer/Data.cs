@@ -1,9 +1,9 @@
 
-namespace RecheApi.Nifty.Serializers
+namespace RecheApi.Nifty.Serializers.DataTransfer
 {
-public class Data()
+public class BaseData()
     {
-        private Dictionary<string, object> _values = new();
+        protected Dictionary<string, object> _values = new();
         public void SetValue(string key, object value) => _values[key] = value;
         public T GetValue<T>(string key) => (T)_values[key];
 
