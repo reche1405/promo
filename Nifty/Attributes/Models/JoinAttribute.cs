@@ -1,4 +1,4 @@
-namespace RecheApi.Data.Attributes
+namespace RecheApi.Nifty.Attributes.Models
 {
     [System.AttributeUsage(System.AttributeTargets.Class |System.AttributeTargets.Struct)]
     public class JoinAttribute(string leftName, string rightName) : Attribute {

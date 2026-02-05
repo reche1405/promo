@@ -1,4 +1,4 @@
-namespace RecheApi.Data.Attributes. Serializers
+namespace RecheApi.Nifty.Attributes.Serializers
 {
     [AttributeUsage(AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     class SerializeAttribute(string name, bool required, string source) : Attribute
@@ -6,5 +6,7 @@ namespace RecheApi.Data.Attributes. Serializers
         public string Name = name;
         public bool Required = required;
         public string Source = source;
+
+        
     }
 }

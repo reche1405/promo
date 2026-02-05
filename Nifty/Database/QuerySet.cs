@@ -95,7 +95,7 @@ namespace RecheApi.Nifty.Database
         }
         public List<T> ToList()
         {
-            Db _db = new();
+            DbContext _db = new();
             return _db.Query(ToSQL(), MapToModel);
             // TODO: get the connection string from a global setting,
             // Connect to the db and call the query function
@@ -105,7 +105,7 @@ namespace RecheApi.Nifty.Database
 
         public T First()
         {
-            Db _db = new();
+            DbContext _db = new();
             _limit = 1;
             return _db.QuerySingle(ToSQL(), MapToModel);
         }

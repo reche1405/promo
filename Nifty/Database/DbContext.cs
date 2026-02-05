@@ -1,18 +1,18 @@
 using Microsoft.Data.Sqlite; 
 namespace RecheApi.Nifty.Database
 {
-    public class Db
+    public class DbContext
     {
         private readonly string _conString = Config.ConnectionString;
 
-        public Db()
+        public DbContext()
         {
 
-            using var con = new SqliteConnection(_conString);
-            con.Open();
-            var tableCommand = con.CreateCommand();
-            tableCommand.CommandText = 
-            @"
+            // using var con = new SqliteConnection(_conString);
+            //con.Open();
+            //var tableCommand = con.CreateCommand();
+            // tableCommand.CommandText = 
+            /* @"
                 CREATE TABLE IF NOT EXISTS Colour (
                     ColourId INTEGER PRIMARY KEY AUTOINCREMENT,
                     Title VARCHAR(255) NOT NULL,
@@ -78,9 +78,9 @@ namespace RecheApi.Nifty.Database
                     FOREIGN KEY (MediaId) REFERENCES Media(MediaId)
                 );
             ";
-                    
-            tableCommand.ExecuteNonQuery();
-            con.Close();
+                */     
+            // tableCommand.ExecuteNonQuery();
+            // con.Close();
         }
         public T QuerySingle<T>(string sql, Func<SqliteDataReader, T> map, params (string, object)[] parameters)
         {

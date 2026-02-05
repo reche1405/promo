@@ -1,0 +1,10 @@
+
+
+POST http://localhost:5237/ HTTP/2.0
+content-type: application/json
+
+{
+    "title": "Maaaaayn, It's good to see you working!",
+    "description": "Lets see how you handle a datetime.",
+    "startDate" : "2026-12-10T01:16:12:300"
+}

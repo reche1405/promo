@@ -1,7 +1,9 @@
-using System.ComponentModel.DataAnnotations.Schema;
+
 using System.Reflection;
 using RecheApi.Nifty.Models;
 using RecheApi.Nifty.Database;
+using RecheApi.Nifty.Attributes.Models;
+using RecheApi.Nifty.Attributes.Serializers;
 namespace RecheApi.Nifty.Models
 {
 
@@ -36,11 +38,40 @@ namespace RecheApi.Nifty.Models
             
         }
 
-        public void Create(T model)
+        public T Create(Nifty.Serializers.Data data) 
         {
+            T model = new();
+
+            var props = model.GetType().GetProperties() ?? throw new Exception("This model has no properties");
+            foreach(var prop in props)
+            {
+                var colAttrs = prop.GetCustomAttribute<ColumnAttribute>();
+                if (colAttrs is null )
+                {
+                    continue;
+                }
+                if (colAttrs.IsPrimaryKey)
+                {
+                    prop.SetValue(model, null);
+                    continue;
+                }
+                string lookupName = prop.Name;
+                try
+                {
+                    object value = data.GetValueIgnoreCase<object>(lookupName);
+                    prop.SetValue(model, value);
+                } catch(KeyNotFoundException e)
+                {
+                    Console.WriteLine(e.Message);
+                    continue;   
+                }
+            }
+
             CommandSet<T> cs = new();
             CommandSet<T> addCommand = cs.Add(model);
             sessionCommands.Add(addCommand);
+
+            return model;
 
         }
 
@@ -53,7 +84,7 @@ namespace RecheApi.Nifty.Models
                 return;
             }
 
-            Db _db = new ();
+            DbContext _db = new ();
             int modifiedRows;   // Inserted, Edited or deleted rows.
             int testCounter = 0;
             while(sessionCommands.Count != 0)
