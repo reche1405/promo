@@ -1,63 +1,18 @@
-
-using System.Text.Json;
-using Microsoft.AspNetCore.Http.HttpResults;
 using RecheApi.Models;
-using RecheApi.Nifty.Serializers;
 using RecheApi.Serializers;
 using RecheApi.Nifty.Serializers.DataTransfer;
+using RecheApi.Nifty.Application;
 
 
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
+//var builder = WebApplication.CreateBuilder(args);
+//var app = builder.Build();
 
-app.Use( async (context, next) =>
-{
-    string method = context.Request.Method;
-    bool isNonQuery = false;
-    string[] parsableMethods = ["POST", "PUT", "PATCH"];
-    
-    foreach(string m in parsableMethods)
-    {
-        if(string.Compare(method, m , StringComparison.OrdinalIgnoreCase) == 0)
-        {
-            isNonQuery = true;
-            break;
-        }
-    }
+var AppFactory = new NiftyAppFactory();
+AppFactory.CreateBuilder(args);
+var nApp = AppFactory.Build();
 
-    if (!isNonQuery) {
-        
-        await next(context);
-        return;
-    }
 
-    RequestData data = new();
-    using var sr = new StreamReader(context.Request.Body);
-    var body = await sr.ReadToEndAsync();
-    if(string.IsNullOrEmpty(body))
-    {
-        await next(context);
-        return;
-    }
-
-    var dict = JsonSerializer.Deserialize<Dictionary<string, object>>(body);
-     if(dict is null)
-    {
-        await next(context);
-        return;
-        
-    }
-
-    foreach((string key, object value ) in dict)
-    {
-        data.SetValue(key, value);
-    }
-    context.Items["Data"] = data;
-     await next(context);
-    return;
-});
-
-app.MapGet("/", () =>
+nApp.MapGet("/", () =>
 {
     
     var projects = Project.Objects.All().Where("ProjectId > 2").ToList();
@@ -68,7 +23,7 @@ app.MapGet("/", () =>
          projectData
     };
 });
-app.MapPost("/", (context) =>
+nApp.MapPost("/", (context) =>
 {
     var data = context.Items["Data"] as RequestData;
     if (data is null)
@@ -93,4 +48,4 @@ app.MapPost("/", (context) =>
     return Task.CompletedTask;
 } );
 
-app.Run();
+nApp.Run();

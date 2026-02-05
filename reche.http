@@ -4,7 +4,7 @@ POST http://localhost:5237/ HTTP/2.0
 content-type: application/json
 
 {
-    "title": "' OR DROP TABLE;",
-    "description": "SQL Injection ",
+    "title": "Nifty App Integration Test",
+    "description": "Does the data conversion middlewhere still work?",
     "startDate" : "2026-12-10T01:16:12:300"
 }

@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Options;
 
-namespace RecheApi.Nifty.Database
+namespace RecheApi.Nifty.Application
 {
     public class Config
     {
@@ -10,7 +10,7 @@ namespace RecheApi.Nifty.Database
         {
             get
             {
-                //var envVal = Environment.GetEnvironmentVariable("DB_CONNECTION");
+                //var envVal = Environment.GetEnvironmentVariable("NIFTY_DB");
                 var envVal = "";
                 return !string.IsNullOrEmpty(envVal) ? envVal : _connectionString;
 

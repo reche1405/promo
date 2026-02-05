@@ -1,4 +1,5 @@
 using Microsoft.Data.Sqlite; 
+using RecheApi.Nifty.Application;
 namespace RecheApi.Nifty.Database
 {
     public class DbContext
