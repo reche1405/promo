@@ -157,7 +157,7 @@ namespace RecheApi.Nifty.Database
             return tables;
         }
 
-        public Dictionary<string, object>QueryTable(string TableName)
+        public Dictionary<string, object>QueryTableMeta(string TableName)
         {
             Dictionary<string, object> dict = new();
             string sql = $"PRAGMA table_xinfo({TableName})";
