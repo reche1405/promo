@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.Data.Sqlite; 
 using RecheApi.Nifty.Application;
 namespace RecheApi.Nifty.Database
@@ -133,6 +134,58 @@ namespace RecheApi.Nifty.Database
                 cmd.Parameters.AddWithValue(name,value);
             }
             return cmd.ExecuteNonQuery();
+        }
+
+        public List<(string Name , Int64 nCols)> QuerySchema()
+        {
+            List<(string Name, Int64 nCols)> tables = new();
+            string sql = "PRAGMA TABLE_LIST";
+            using var con = new SqliteConnection(_conString);
+            con.Open();
+            using var cmd = con.CreateCommand();
+            cmd.CommandText = sql;
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                IDataRecord rowData =  reader;
+                string? tableName = rowData[1].ToString();
+                if( tableName is null ||  tableName.Contains("sqlite")) 
+                    continue;
+                tables.Add((rowData[1].ToString() ?? "", (Int64)rowData[3]));
+            }
+            // Console.WriteLine(tables.ToString());
+            return tables;
+        }
+
+        public Dictionary<string, object>QueryTable(string TableName)
+        {
+            Dictionary<string, object> dict = new();
+            string sql = $"PRAGMA table_xinfo({TableName})";
+             using var con = new SqliteConnection(_conString);
+            con.Open();
+            using var cmd = con.CreateCommand();
+            cmd.CommandText = sql;
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                IDataRecord record = reader;
+
+                // The name of the table column (Or the row in this reader query.)
+                string colName = record[1].ToString() ?? "";
+                Console.WriteLine($"The column name is: {colName}");
+
+                // The data type stored in the database
+                string colType = record[2].ToString() ?? "";
+                Console.WriteLine($"The column type is: {colType}");
+
+                bool colNullable = !(bool)record[3];
+
+                bool pk = (bool)record[4];
+                dict.Add(colName, new{ colType, colNullable, pk});
+
+                
+            }
+            return dict;
         }
 
     }

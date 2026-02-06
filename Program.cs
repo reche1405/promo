@@ -2,12 +2,14 @@ using RecheApi.Models;
 using RecheApi.Serializers;
 using RecheApi.Nifty.Serializers.DataTransfer;
 using RecheApi.Nifty.Application;
+using RecheApi.Nifty.Database;
 
 var AppFactory = new NiftyAppFactory();
 AppFactory.CreateBuilder(args);
 var App = AppFactory.Build();
 
-
+var tCtx = new DbContext();
+tCtx.QuerySchema();
 App.MapGet("/", () =>
 {
     
