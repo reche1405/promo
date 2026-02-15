@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using RecheApi.Models;
 
 namespace RecheApi.Nifty.Attributes.Models
@@ -6,7 +7,7 @@ namespace RecheApi.Nifty.Attributes.Models
     public class ColumnAttribute
     (bool primaryKey = false, bool nullable = true, int maxLength = 0, 
     bool autoIncrement = false, string foreignKey = "", bool autoNowAdd = false,
-    bool autoNow = false, bool readOnly = false, bool serialize = false 
+    bool autoNow = false, bool readOnly = false, bool serialize = false, bool mediumText = false
     
      ) : Attribute
     {
@@ -21,7 +22,7 @@ namespace RecheApi.Nifty.Attributes.Models
 
         public bool AutoNowAdd {get;set;} = autoNowAdd;
         public bool AutoNow {get;set;} = autoNow;
-
+        public bool MediumText {get;set;} = mediumText;
         public bool Serialize {get;set;} = serialize;
         
     }

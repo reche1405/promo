@@ -11,14 +11,11 @@ AppFactory.CreateBuilder(args);
 var App = AppFactory.Build();
 
 var tCtx = new DbContext();
-Console.WriteLine("From the Db:");
-tCtx.QuerySchema();
+// Console.WriteLine("From the Db:");
+TableIdentifier t = new(); 
+t.GetTables();
 Console.WriteLine("From the models:");
-var models = ModelIdentifier.GetModelTypes();
-foreach(Type t in models)
-{
-    Console.WriteLine(t.Name);
-}
+var models = ModelIdentifier.GetModels();
 App.MapGet("/", () =>
 {
     

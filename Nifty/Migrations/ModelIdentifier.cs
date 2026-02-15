@@ -30,10 +30,10 @@ namespace RecheApi.Nifty.Migrations
                     ColumnAttribute? attrs = prop.GetCustomAttribute<ColumnAttribute>();
                     if (attrs is null) continue;
                     // Need to get the type of the property, if it is nullable, and if it is a primary key.
-                    string colType = prop.GetType().ToString();
+                    string colType = prop.PropertyType.ToString();
                     bool colNullable = attrs.Nullable;
                     bool pk = attrs.IsPrimaryKey;
-                    Console.WriteLine($"Name: {prpName}, Type: {colType}, nulllable: {colNullable}, pk: {pk}");
+                    Console.WriteLine($"\t - Name: {prpName}, Type: {colType}, nulllable: {colNullable}, pk: {pk}");
                     dict.Add(prpName, new {colType, colNullable, pk});
                 }
                 data.Add(t.Name, dict);

@@ -9,7 +9,7 @@ namespace RecheApi.Models
         [Column(primaryKey: true, readOnly: true)]
         public int TextBlockId {get;set;}
        
-        [Column(required: true)]
+        [Column(nullable: false)]
         public string? Text {get;set;}
         [Column(foreignKey:"Colour")]
         public int? ColourId {get;set;}

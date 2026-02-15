@@ -9,16 +9,16 @@ namespace RecheApi.Models
         [Column(primaryKey : true, autoIncrement: true)]
         public int ProjectId { get; set; }
 
-        [Column(required: true)]
+        [Column(nullable: false, maxLength:255)]
         public string? Title { get; set; }
 
-        [Column(required: true)]
+        [Column(nullable: false, mediumText:true)]
         public string? Description {get; set; }
 
         [Column(autoNowAdd: true)]
-        public string? StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [Column]
-        public string? EndDate {get; set; }
+        public DateTime? EndDate {get; set; }
 
         [ManyToMany(otherModel:"Tag", relatedName: "Tags", reverseName: "Projects")]
         public List<Tag> Tags {get; set;} = new();

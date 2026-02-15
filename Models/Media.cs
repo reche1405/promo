@@ -8,10 +8,10 @@ namespace RecheApi.Models
         [Column(primaryKey: true, autoIncrement: true)]
         public int MediaId {get;set;}
 
-        [Column(required:true)]
+        [Column(nullable: false)]
         public string? Path {get;set;}
 
-        [Column(required:true)]
+        [Column(nullable:false)]
         public string? Title {get;set;}
         [Column]
         public string? Description {get;set;}

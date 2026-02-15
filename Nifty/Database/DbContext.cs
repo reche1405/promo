@@ -166,21 +166,24 @@ namespace RecheApi.Nifty.Database
             using var cmd = con.CreateCommand();
             cmd.CommandText = sql;
             using var reader = cmd.ExecuteReader();
+            Console.WriteLine(TableName);
             while (reader.Read())
             {
                 IDataRecord record = reader;
-
                 // The name of the table column (Or the row in this reader query.)
                 string colName = record[1].ToString() ?? "";
-                Console.WriteLine($"The column name is: {colName}");
+                Console.Write($"\t - Name:{colName}, ");
 
                 // The data type stored in the database
                 string colType = record[2].ToString() ?? "";
-                Console.WriteLine($"The column type is: {colType}");
+                Console.Write($"Type: {colType}, ");
 
-                bool colNullable = !(bool)record[3];
+                bool colNullable = (long)record[3] > 0 ? false : true;
+                Console.Write($"Nullable {colNullable}, ");
 
-                bool pk = (bool)record[4];
+                bool pk = (long)record[5] > 0 ? true : false;
+                Console.Write($"pk {pk} \n");
+
                 dict.Add(colName, new{ colType, colNullable, pk});
 
                 

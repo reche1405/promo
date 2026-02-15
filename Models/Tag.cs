@@ -9,7 +9,7 @@ namespace RecheApi.Models
         [Column(primaryKey: true, autoIncrement: true)]
         public int TagId {get;set;}
 
-        [Column(required: true)]
+        [Column(nullable: false)]
         public string? Text {get;set;}
         [Column]
         public int? ColourId {get; set; }
