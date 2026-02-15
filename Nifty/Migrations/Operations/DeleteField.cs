@@ -1,13 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 
 namespace RecheApi.Nifty.Migrations.Operations
 {
-    public class AddModel(string modelName, List<PropertyInfo> props) : Operation
+    public class DeleteField(string modelName, string fieldName) : Operation
     {
         public string ModeleName {get;set;} = modelName;
-
-        public List<PropertyInfo> Properties {get;set;} = props;
+        public string FieldName {get;set;} = fieldName;
 
     }
 }

@@ -3,11 +3,10 @@ using System.Reflection;
 
 namespace RecheApi.Nifty.Migrations.Operations
 {
-    public class AddModel(string modelName, List<PropertyInfo> props) : Operation
+    public class AlterField(string modelName, PropertyInfo prop) : Operation
     {
         public string ModeleName {get;set;} = modelName;
-
-        public List<PropertyInfo> Properties {get;set;} = props;
+        public PropertyInfo Property {get;set;} = prop;
 
     }
 }
