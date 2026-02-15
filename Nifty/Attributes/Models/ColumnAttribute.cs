@@ -4,7 +4,7 @@ namespace RecheApi.Nifty.Attributes.Models
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class ColumnAttribute
-    (bool primaryKey = false, bool required = false, int maxLength = 0, 
+    (bool primaryKey = false, bool nullable = true, int maxLength = 0, 
     bool autoIncrement = false, string foreignKey = "", bool autoNowAdd = false,
     bool autoNow = false, bool readOnly = false, bool serialize = false 
     
@@ -15,7 +15,7 @@ namespace RecheApi.Nifty.Attributes.Models
         public bool IsReadOnly {get;set;} = readOnly;
         public int? MaxLength {get;set;} = maxLength > 0 ? maxLength : null;
         public bool AutoIncrement {get; set;} = autoIncrement;
-        public bool IsRequired {get;set;} = required;
+        public bool Nullable {get;set;} = primaryKey || foreignKey.Length > 0 ? false : nullable;
         public bool IsForeignKey {get;set;} = foreignKey.Length > 0;
         public string? ForeignKeyTableName {get;set;} = foreignKey.Length > 0 ? foreignKey : null;
 
@@ -25,4 +25,5 @@ namespace RecheApi.Nifty.Attributes.Models
         public bool Serialize {get;set;} = serialize;
         
     }
+
 }

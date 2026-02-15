@@ -32,7 +32,7 @@ namespace RecheApi.Nifty.Serializers
             {
                 var attrs = prop.GetCustomAttribute<ColumnAttribute>();
                 if(attrs is null) continue;
-                SerializerField field = new(prop.Name, prop, attrs.IsRequired, attrs.IsReadOnly);
+                SerializerField field = new(prop.Name, prop, !attrs.Nullable, attrs.IsReadOnly);
                 if (reqData is not null)
                 {   try
                     {

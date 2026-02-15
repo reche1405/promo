@@ -152,8 +152,8 @@ namespace RecheApi.Nifty.Database
                 if( tableName is null ||  tableName.Contains("sqlite")) 
                     continue;
                 tables.Add((rowData[1].ToString() ?? "", (Int64)rowData[3]));
+                Console.WriteLine(rowData[1].ToString());
             }
-            // Console.WriteLine(tables.ToString());
             return tables;
         }
 

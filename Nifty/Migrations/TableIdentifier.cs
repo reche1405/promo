@@ -14,12 +14,12 @@ namespace RecheApi.Nifty.Migrations
            Schema = con.QuerySchema();
            SchemaIndexed = true;
         }
-        public void GetTableMeta()
+        public void QueryTableMeta()
         {
             if(!SchemaIndexed)
             { 
                 GetSchema();
-            } else if (Schema.Count() < 1)
+            }if (Schema.Count() < 1)
             {
                 throw new Exception("No Schema Information available in the current context.");
             }
@@ -29,6 +29,10 @@ namespace RecheApi.Nifty.Migrations
                 Dictionary<string, object> TableMeta = con.QueryTableMeta(Name);
                 Tables.Add(TableMeta);
             }
+        }
+        public List<Dictionary<string, object>> GetTables()
+        {
+            return Tables;
         }
     }
 }

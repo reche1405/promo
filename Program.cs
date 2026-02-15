@@ -3,13 +3,22 @@ using RecheApi.Serializers;
 using RecheApi.Nifty.Serializers.DataTransfer;
 using RecheApi.Nifty.Application;
 using RecheApi.Nifty.Database;
+using RecheApi.Nifty.Migrations;
+using RecheApi.Nifty.Serializers;
 
 var AppFactory = new NiftyAppFactory();
 AppFactory.CreateBuilder(args);
 var App = AppFactory.Build();
 
 var tCtx = new DbContext();
+Console.WriteLine("From the Db:");
 tCtx.QuerySchema();
+Console.WriteLine("From the models:");
+var models = ModelIdentifier.GetModelTypes();
+foreach(Type t in models)
+{
+    Console.WriteLine(t.Name);
+}
 App.MapGet("/", () =>
 {
     
